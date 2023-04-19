@@ -21,8 +21,6 @@ namespace Template_Test.TEST
                 .SignIn();
             Pages.Vote
                 .Voting();
-            Pages.Vote
-                .Voting();
 
         }
     }
