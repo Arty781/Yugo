@@ -13,17 +13,24 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
+      
+    - name: Use Node.js 16.x
+      uses: actions/setup-node@v2
+      with:
+        node-version: 16.x
 
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: '6.0.x'
 
-    - name: Restore dependencies
-      run: dotnet restore
+    - name: Install dependencies
+      run: npm install
 
-    - name: Build
-      run: dotnet build Yugo.sln
-
-    - name: Run tests
-      run: dotnet test Yugo.sln
+    - name: Build and test
+      run: |
+        dotnet restore
+        dotnet build Yugo.sln
+        dotnet test Yugo.sln --logger "trx;LogFileName=test_results.xml"
+      
+      
