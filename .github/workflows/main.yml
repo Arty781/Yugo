@@ -27,11 +27,10 @@ jobs:
     - name: Install dependencies
       run: npm install
 
-    - name: Build
-      run: dotnet build Yugo.sln
-
-    - name: Run tests
-      run: dotnet test Yugo.sln
-      
+    - name: Build and test
+      run: |
+        dotnet restore
+        dotnet build Yugo.sln
+        dotnet test Yugo.sln --logger "trx;LogFileName=test_results.xml"
       
       
