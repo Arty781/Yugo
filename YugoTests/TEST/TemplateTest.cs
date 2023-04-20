@@ -23,5 +23,12 @@ namespace Template_Test.TEST
                 .Voting();
 
         }
+
+        [Test]
+        public void SignIn()
+        {
+            Pages.Login
+                .SignIn();
+        }
     }
 }
