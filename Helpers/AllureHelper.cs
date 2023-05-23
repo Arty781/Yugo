@@ -12,7 +12,7 @@ namespace Base_Temlate.Helpers
 {
     public class AllureHelper
     {
-        [Test]
+        
         public void GoToAllureResults()
         {
             CreateAllureFile();
