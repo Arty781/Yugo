@@ -9,6 +9,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="YugoTests\**" />
+    <EmbeddedResource Remove="YugoTests\**" />
+    <None Remove="YugoTests\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="C:\Users\ARTY\.nuget\packages\allure.commons\3.5.0.73\contentFiles\any\netstandard2.0\allureConfig.Template.json" />
   </ItemGroup>
 

@@ -1,11 +1,4 @@
 ﻿using Base_Temlate.Helpers;
-using OpenQA.Selenium.DevTools.V109.Network;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using Yugo.Helpers;
 
 namespace Base_Temlate.PageObjects

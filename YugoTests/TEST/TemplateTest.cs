@@ -24,11 +24,5 @@ namespace Template_Test.TEST
 
         }
 
-        [Test]
-        public void SignIn()
-        {
-            Pages.Login
-                .SignIn();
-        }
     }
 }

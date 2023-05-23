@@ -24,7 +24,7 @@ namespace Yugo.Pages.VotePage
             {
                 GoToVotePage();
                 Button.Click(btnVote[i]);
-                WaitHelpers.WaitSomeInterval(10000);
+                WaitHelpers.WaitSomeInterval(5000);
             }
 
             return this;

@@ -1,0 +1,1 @@
+allure serve C:\Users\ARTY\source\repos\Yugo\\allure-results
