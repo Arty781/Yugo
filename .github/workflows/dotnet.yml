@@ -8,7 +8,7 @@ on:
     branches:
       - main  # Adjust the branch name as needed
   schedule:
-    - cron: "*/10 * * * *"
+    - cron: "0 */12 * * *"
 
 jobs:
   test:
