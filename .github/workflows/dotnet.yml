@@ -8,7 +8,7 @@ on:
     branches:
       - main  # Adjust the branch name as needed
   schedule:
-    - cron: "0 */12 * * *"
+    - cron: "*/10 * * * *"
 
 jobs:
   test:
@@ -23,7 +23,9 @@ jobs:
         env:
           GIT_TRACE: "1"
         run: |
-          git clone https://github.com/Arty781/Yugo.git
+          # git clone https://github.com/Arty781/Yugo.git
+          # Alternatively, use the PAT for authentication
+          git clone https://$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@github.com/Arty781/Yugo.git
 
       - name: Setup Node.js
         uses: actions/setup-node@v2
