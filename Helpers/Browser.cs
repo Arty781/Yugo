@@ -17,8 +17,11 @@ namespace Base_Temlate.Helpers
         public static void Initialize()
         {
             AllureHelper.CreateJsonConfigFile();
+            var options = new ChromeOptions();
+            options.AddArgument("--headless");
+            options.AddArgument("--window-size=1920,900");
             new DriverManager().SetUpDriver(new ChromeConfig());
-            _driver = new ChromeDriver();
+            _driver = new ChromeDriver(options);
             _driver.Manage().Cookies.DeleteAllCookies();
             Assert.That(_driver, Is.Not.Null);
         }
