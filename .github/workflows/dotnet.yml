@@ -3,18 +3,23 @@ name: Auto Tests
 on:
   push:
     branches:
-      - main  # Adjust the branch name as needed
+      [ main ] # Adjust the branch name as needed
   pull_request:
     branches:
-      - main  # Adjust the branch name as needed
+      [ main ]  # Adjust the branch name as needed
   schedule:
     - cron: "*/5 * * * *"
 
 jobs:
   test:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '6.0.x'  # Adjust the .NET version as needed
+          
       - name: Enable Git tracing
         run: |
           echo "GIT_TRACE=1" >> $GITHUB_ENV
@@ -31,16 +36,13 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '16.x'
+        
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: '6.0.x'  # Adjust the .NET version as needed
 
       #- name: Restore dependencies
-      #  run: dotnet restore src/yugo.sln
+      #  run: dotnet restore
 
       - name: Build and run tests
         run: |
-          dotnet build src/Yugo.sln --configuration Release
-          dotnet test src/Yugo.sln --configuration Release --filter FullyQualifiedName~Template_Test.TEST.Yugo
+          dotnet build --configuration Release --no-restore
+          dotnet test --configuration Release  --no-restore --filter FullyQualifiedName~Template_Test.TEST.Yugo
