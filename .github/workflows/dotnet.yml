@@ -3,20 +3,20 @@ name: Auto Tests
 on:
   push:
     branches:
-      [ main ] # Adjust the branch name as needed
+      - master  # Adjust the branch name as needed
   pull_request:
     branches:
-      [ main ]  # Adjust the branch name as needed
-  schedule:
-    - cron: "*/5 * * * *"
+      - master  # Adjust the branch name as needed
+  #schedule:
+  #  - cron: "*/5 * * * *"
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
       - name: Setup .NET
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '6.0.x'  # Adjust the .NET version as needed
           
@@ -36,34 +36,9 @@ jobs:
       #  uses: actions/setup-node@v2
       #  with:
       #    node-version: '16.x'
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v2.5.2
-        with:        
-        # Version Spec of the version to use.  Examples: 12.x, 10.15.1, >=10.15.0
-          node-version:  '16.x'
-        # File containing the version Spec of the version to use.  Examples: .nvmrc, .node-version
-          node-version-file:  optional
-        # Target architecture for Node to use. Examples: x86, x64. Will use system architecture by default.
-          architecture:  optional
-        # Set this option if you want the action to check for the latest available version that satisfies the version spec
-          check-latest:  optional
-        # Optional registry to set up for auth. Will set the registry in a project level .npmrc and .yarnrc file, and set up auth to read in from env.NODE_AUTH_TOKEN
-          registry-url:  optional
-        # Optional scope for authenticating against scoped registries
-          scope:  optional
-        # Used to pull node distributions from node-versions.  Since there's a default, this is typically not supplied by the user.
-          token: ${{ github.token }}
-        # Used to specify a package manager for caching in the default directory. Supported values: npm, yarn, pnpm
-          cache:  optional
-        # Used to specify the path to a dependency file: package-lock.json, yarn.lock, etc. Supports wildcards or a list of file names for caching multiple dependencies.
-          cache-dependency-path:  optional
-        # Deprecated. Use node-version instead. Will not be supported after October 1, 2019
-          version:  optional
-        
-
-
-      #- name: Restore dependencies
-      #  run: dotnet restore
+      
+      - name: Restore dependencies
+        run: dotnet restore
 
       - name: Build and run tests
         run: |
