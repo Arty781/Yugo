@@ -8,11 +8,11 @@ on:
     branches:
       [ main ]  # Adjust the branch name as needed
   schedule:
-    - cron: "*/1 * * * *"
+    - cron: "*/5 * * * *"
 
 jobs:
   test:
-    runs-on: [ubuntu-latest]
+    runs-on: ubuntu-latest
 
     steps:
       - name: Setup .NET
