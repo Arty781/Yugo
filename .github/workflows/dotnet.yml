@@ -3,16 +3,16 @@ name: Auto Tests
 on:
   push:
     branches:
-      - main  # Adjust the branch name as needed
+      [ main ] # Adjust the branch name as needed
   pull_request:
     branches:
-      - main  # Adjust the branch name as needed
+      [ main ]  # Adjust the branch name as needed
   schedule:
-    - cron: "*/5 * * * *"
+    - cron: "*/1 * * * *"
 
 jobs:
   test:
-    runs-on: windows-latest
+    runs-on: [ubuntu-latest]
 
     steps:
       - name: Setup .NET
@@ -36,10 +36,11 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '16.x'
+        
 
 
-      - name: Restore dependencies
-        run: dotnet restore
+      #- name: Restore dependencies
+      #  run: dotnet restore
 
       - name: Build and run tests
         run: |
