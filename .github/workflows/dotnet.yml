@@ -42,5 +42,5 @@ jobs:
 
       - name: Build and run tests
         run: |
-          dotnet build
-          dotnet test --filter FullyQualifiedName~Template_Test.TEST.Yugo
+          dotnet build src/Yugo.sln --configuration Release
+          dotnet test src/Yugo.sln --configuration Release --filter FullyQualifiedName~Template_Test.TEST.Yugo
