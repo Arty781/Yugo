@@ -19,6 +19,7 @@ namespace Base_Temlate.Helpers
             AllureHelper.CreateJsonConfigFile();
             var options = new ChromeOptions();
             options.AddArgument("--headless");
+
             options.AddArgument("--window-size=1920,900");
             new DriverManager().SetUpDriver(new ChromeConfig());
             _driver = new ChromeDriver(options);
