@@ -20,13 +20,23 @@ namespace Yugo.Pages.VotePage
 
         public Vote Voting()
         {
-            for(int i=0; i<8; i++)
+            GetVotePoints(out int votePointsBefore);
+            for (int i=0; i<8; i++)
             {
                 GoToVotePage();
                 Button.Click(btnVote[i]);
                 WaitHelpers.WaitSomeInterval(5000);
             }
+            GoToVotePage();
+            GetVotePoints(out int votePointsAfter);
+            Console.WriteLine($"Total votepoints: {votePointsAfter} \r\n added points: +{votePointsAfter - votePointsBefore}");
+            return this;
+        }
 
+        public Vote GetVotePoints(out int votePoints)
+        {
+            WaitHelpers.CustomElementIsVisible(textVotePoints);
+            votePoints = int.Parse(textVotePoints.Text);
             return this;
         }
     }

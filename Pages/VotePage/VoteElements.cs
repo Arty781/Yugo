@@ -18,5 +18,8 @@ namespace Yugo.Pages.VotePage
 
         [FindsBy(How=How.XPath, Using = "//a[text()=' Vote Panel']")]
         public IWebElement linkVoteSidebar;
+
+        [FindsBy(How=How.XPath, Using = "//div[@class='uk-navbar-item']//li[2]")]
+        public IWebElement textVotePoints;
     }
 }

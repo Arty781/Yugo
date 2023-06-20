@@ -18,6 +18,15 @@ namespace Base_Temlate.Helpers
             AllureHelper.CreateAllureFile();
         }
 
+        [TearDown]
+        public static void TearDown()
+        {
+            if (Browser._Driver != null)
+            {
+                Browser._Driver.Close();
+            }
+        }
+
         [OneTimeTearDown]
         public static void OneTimeTearDown()
         {
