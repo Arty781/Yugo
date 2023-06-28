@@ -6,13 +6,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Template_Test.BASE_Test;
 
 namespace Template_Test
 {
     [AllureNUnit]
     [TestFixture]
-    public class Yugo : BASE
+    public class Yugo : BASE_Test.BASE
     {
         [Test]
         public void Login()

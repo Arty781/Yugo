@@ -21,5 +21,9 @@ namespace Yugo.Pages.VotePage
 
         [FindsBy(How=How.XPath, Using = "//div[@class='uk-navbar-item']//li[2]")]
         public IWebElement textVotePoints;
+
+        [FindsBy(How=How.XPath,Using = "//div[@uk-countdown]")]
+        public IWebElement countdownTimer;
+
     }
 }
