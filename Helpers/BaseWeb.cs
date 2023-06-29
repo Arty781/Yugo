@@ -21,19 +21,13 @@ namespace Base_Temlate.Helpers
         [TearDown]
         public static void TearDown()
         {
-            if (Browser._Driver != null)
-            {
-                Browser._Driver.Close();
-            }
+            Browser._Driver?.Close();
         }
 
         [OneTimeTearDown]
         public static void OneTimeTearDown()
         {
-            if(Browser._Driver != null)
-            {
-                Browser._Driver.Dispose();
-            }
+            Browser._Driver?.Dispose();
         }
     }
 }

@@ -23,7 +23,7 @@ namespace Yugo.Pages.VotePage
         public IWebElement textVotePoints;
 
         [FindsBy(How=How.XPath,Using = "//div[@uk-countdown]")]
-        public IWebElement countdownTimer;
+        public IList<IWebElement> countdownTimer;
 
     }
 }

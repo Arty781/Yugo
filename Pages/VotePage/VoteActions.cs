@@ -1,4 +1,5 @@
 ﻿using Base_Temlate.Helpers;
+using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +26,7 @@ namespace Yugo.Pages.VotePage
             for (int i=0; i<8; i++)
             {
                 GoToVotePage();
-                WaitUntilTimerIsZero();
+                WaitUntilTimerIsZero(countdownTimer[i]);
                 Button.Click(btnVote[i]);
                 WaitHelpers.WaitSomeInterval(5000);
             }
@@ -42,9 +43,9 @@ namespace Yugo.Pages.VotePage
             return this;
         }
 
-        private void WaitUntilTimerIsZero()
+        private static void WaitUntilTimerIsZero(IWebElement element)
         {
-            var desiredTime = countdownTimer.Text.Replace("\r\n", "");
+            var desiredTime = element.Text.Replace("\r\n", "");
             if (desiredTime != "00:00:00:00")
             {
                 TimeSpan desiredTimeSpan = TimeSpan.Parse(desiredTime);
@@ -55,8 +56,7 @@ namespace Yugo.Pages.VotePage
                 {
                     if (DateTime.Now - startTime > timeLimit)
                     {
-                        // Time limit exceeded, break the loop
-                        break;
+                        throw new ArgumentException("Time limit exceeded");
                     }
 
                     TimeSpan currentTimeSpan = TimeSpan.FromTicks(DateTime.Now.Ticks - startTime.Ticks);
@@ -65,9 +65,9 @@ namespace Yugo.Pages.VotePage
                         // Desired time reached, exit the loop
                         break;
                     }
-                    var s = desiredTimeSpan - currentTimeSpan;
-                    Thread.Sleep(desiredTimeSpan - currentTimeSpan);
-                    desiredTime = countdownTimer.Text.Replace("\r\n", "");
+                    
+                    Thread.Sleep(TimeSpan.FromMinutes(1));
+                    desiredTime = element.Text.Replace("\r\n", "");
                     desiredTimeSpan = TimeSpan.Parse(desiredTime);
                 }
             }
