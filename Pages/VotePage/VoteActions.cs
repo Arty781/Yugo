@@ -1,8 +1,10 @@
-﻿using Base_Temlate.Helpers;
+﻿using Allure.Commons;
+using Base_Temlate.Helpers;
 using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -43,7 +45,7 @@ namespace Yugo.Pages.VotePage
             return this;
         }
 
-        private static void WaitUntilTimerIsZero(IWebElement element)
+        private Vote WaitUntilTimerIsZero(IWebElement element)
         {
             var desiredTime = element.Text.Replace("\r\n", "");
             if (desiredTime != "00:00:00:00")
@@ -58,19 +60,16 @@ namespace Yugo.Pages.VotePage
                     {
                         throw new ArgumentException("Time limit exceeded");
                     }
-
-                    TimeSpan currentTimeSpan = TimeSpan.FromTicks(DateTime.Now.Ticks - startTime.Ticks);
-                    if (currentTimeSpan >= desiredTimeSpan)
+                    else
                     {
-                        // Desired time reached, exit the loop
-                        break;
+                        Thread.Sleep(TimeSpan.FromMinutes(1));
+                        desiredTime = element.Text.Replace("\r\n", "");
+                        desiredTimeSpan = TimeSpan.Parse(desiredTime);
                     }
-                    
-                    Thread.Sleep(TimeSpan.FromMinutes(1));
-                    desiredTime = element.Text.Replace("\r\n", "");
-                    desiredTimeSpan = TimeSpan.Parse(desiredTime);
                 }
             }
+
+            return this;
         }
     }
 }
