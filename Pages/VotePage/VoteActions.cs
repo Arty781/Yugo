@@ -29,7 +29,7 @@ namespace Yugo.Pages.VotePage
             for (int i=0; i<8; i++)
             {
                 GoToVotePage();
-                CustomElementIsVisible(countdownTimer[i]);
+                WaitUntilTimerIsZero(countdownTimer[i]);
                 Button.Click(btnVote[i]);
                 WaitHelpers.WaitSomeInterval(5000);
             }
@@ -47,7 +47,7 @@ namespace Yugo.Pages.VotePage
         }
 
 
-        private static void CustomElementIsVisible(IWebElement element, int seconds = 600)
+        private static void WaitUntilTimerIsZero(IWebElement element, int seconds = 600)
         {
             WebDriverWait wait = new(Browser._Driver, TimeSpan.FromSeconds(seconds))
             {
@@ -70,8 +70,8 @@ namespace Yugo.Pages.VotePage
 
                 });
             }
-            catch (NoSuchElementException) { }
-            catch (StaleElementReferenceException) { }
+            catch (NoSuchElementException) { throw new NoSuchElementException(); }
+            catch (StaleElementReferenceException) { throw new StaleElementReferenceException(); }
         }
     }
 }
