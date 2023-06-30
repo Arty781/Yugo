@@ -1,6 +1,7 @@
 ﻿using Allure.Commons;
 using Base_Temlate.Helpers;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +29,7 @@ namespace Yugo.Pages.VotePage
             for (int i=0; i<8; i++)
             {
                 GoToVotePage();
-                WaitUntilTimerIsZero(countdownTimer[i]);
+                CustomElementIsVisible(countdownTimer[i]);
                 Button.Click(btnVote[i]);
                 WaitHelpers.WaitSomeInterval(5000);
             }
@@ -45,31 +46,32 @@ namespace Yugo.Pages.VotePage
             return this;
         }
 
-        private Vote WaitUntilTimerIsZero(IWebElement element)
+
+        private static void CustomElementIsVisible(IWebElement element, int seconds = 600)
         {
-            var desiredTime = element.Text.Replace("\r\n", "");
-            if (desiredTime != "00:00:00:00")
+            WebDriverWait wait = new(Browser._Driver, TimeSpan.FromSeconds(seconds))
             {
-                TimeSpan desiredTimeSpan = TimeSpan.Parse(desiredTime);
-                DateTime startTime = DateTime.Now;
-                TimeSpan timeLimit = TimeSpan.FromMinutes(10); // Example time limit of 5 minutes
-
-                while (desiredTimeSpan != TimeSpan.Zero)
+                PollingInterval = TimeSpan.FromMilliseconds(500),
+                Message = $"Element is not visible after {seconds} sec"
+            };
+            try
+            {
+                wait.Until(e =>
                 {
-                    if (DateTime.Now - startTime > timeLimit)
+                    try
                     {
-                        throw new ArgumentException("Time limit exceeded");
+                        if (element.Text.Replace("\r\n", "") == "00:00:00:00")
+                        {
+                            return true;
+                        }
+                        return false;
                     }
-                    else
-                    {
-                        Thread.Sleep(TimeSpan.FromMinutes(1));
-                        desiredTime = element.Text.Replace("\r\n", "");
-                        desiredTimeSpan = TimeSpan.Parse(desiredTime);
-                    }
-                }
-            }
+                    catch (Exception) { return false; }
 
-            return this;
+                });
+            }
+            catch (NoSuchElementException) { }
+            catch (StaleElementReferenceException) { }
         }
     }
 }
