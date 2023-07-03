@@ -30,6 +30,7 @@ namespace Yugo.Pages.VotePage
             {
                 GoToVotePage();
                 WaitUntilTimerIsZero(countdownTimer[i]);
+                WaitHelpers.WaitSomeInterval(1000);
                 Button.Click(btnVote[i]);
                 WaitHelpers.WaitSomeInterval(5000);
             }
