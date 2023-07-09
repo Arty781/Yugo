@@ -26,13 +26,14 @@ namespace Yugo.Pages.VotePage
         public Vote Voting()
         {
             GetVotePoints(out int votePointsBefore);
-            for (int i=0; i<8; i++)
+            WaitHelpers.CustomElementIsVisible(cardVote.FirstOrDefault());
+            foreach (var card in cardVote)
             {
                 GoToVotePage();
-                WaitUntilTimerIsZero(countdownTimer[i]);
+                WaitUntilTimerIsZero(VoteCounter(card));
                 WaitHelpers.WaitSomeInterval(1000);
-                Button.Click(btnVote[i]);
-                WaitHelpers.CustomElementIsInvisible(btnVote[i]);
+                Button.Click(BtnVote(card));
+                WaitHelpers.CustomElementIsInvisible(BtnVote(card));
                 WaitHelpers.WaitSomeInterval(1000);
             }
             GoToVotePage();
@@ -45,6 +46,7 @@ namespace Yugo.Pages.VotePage
         {
             WaitHelpers.CustomElementIsVisible(textVotePoints);
             votePoints = int.Parse(textVotePoints.Text);
+            GoToVotePage();
             return this;
         }
 
@@ -74,6 +76,16 @@ namespace Yugo.Pages.VotePage
             }
             catch (NoSuchElementException) { throw new NoSuchElementException(); }
             catch (StaleElementReferenceException) { throw new StaleElementReferenceException(); }
+        }
+
+        private static IWebElement BtnVote(IWebElement card)
+        {
+            return _ = card.FindElement(By.XPath(".//button[text()=' Vote']"));
+        }
+
+        private static IWebElement VoteCounter(IWebElement card)
+        {
+            return _ = card.FindElement(By.XPath(".//div[@uk-countdown]"));
         }
     }
 }

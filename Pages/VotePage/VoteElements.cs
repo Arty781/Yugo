@@ -10,6 +10,9 @@ namespace Yugo.Pages.VotePage
 {
     public partial class Vote
     {
+        [FindsBy(How = How.XPath, Using = "//div[@class= 'uk-card uk-card-vote']")]
+        public IList<IWebElement> cardVote;
+
         [FindsBy(How = How.XPath, Using = "//button[text()=' Vote']")]
         public IList<IWebElement> btnVote;
 
