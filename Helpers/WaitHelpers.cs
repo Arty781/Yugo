@@ -66,8 +66,8 @@ namespace Yugo.Helpers
 
                 });
             }
-            catch (NoSuchElementException) { }
-            catch (StaleElementReferenceException) { }
+            catch (NoSuchElementException) { throw new NoSuchElementException(); }
+            catch (StaleElementReferenceException) { throw new StaleElementReferenceException(); }
 
         }
     }
