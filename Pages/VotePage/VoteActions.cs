@@ -31,9 +31,9 @@ namespace Yugo.Pages.VotePage
             {
                 GoToVotePage();
                 WaitUntilTimerIsZero(VoteCounter(i));
-                //WaitHelpers.WaitSomeInterval(1000);
-                //Button.Click(BtnVote(i));
-                //WaitHelpers.WaitSomeInterval(1000);
+                WaitHelpers.WaitSomeInterval(1000);
+                Button.Click(BtnVote(i));
+                WaitHelpers.WaitSomeInterval(1000);
             }
             GoToVotePage();
             GetVotePoints(out int votePointsAfter);
