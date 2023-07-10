@@ -27,13 +27,13 @@ namespace Yugo.Pages.VotePage
         {
             GetVotePoints(out int votePointsBefore);
             WaitHelpers.CustomElementIsVisible(cardVote.FirstOrDefault());
-            for (int i = 4; i < 8; i++)
+            for (int i = 0; i < 8; i++)
             {
                 GoToVotePage();
                 WaitUntilTimerIsZero(VoteCounter(i));
-                WaitHelpers.WaitSomeInterval(1000);
-                Button.Click(BtnVote(i));
-                WaitHelpers.WaitSomeInterval(1000);
+                //WaitHelpers.WaitSomeInterval(1000);
+                //Button.Click(BtnVote(i));
+                //WaitHelpers.WaitSomeInterval(1000);
             }
             GoToVotePage();
             GetVotePoints(out int votePointsAfter);
@@ -54,7 +54,7 @@ namespace Yugo.Pages.VotePage
         {
             WebDriverWait wait = new(Browser._Driver, TimeSpan.FromSeconds(seconds))
             {
-                PollingInterval = TimeSpan.FromMilliseconds(500),
+                PollingInterval = TimeSpan.FromMilliseconds(50),
                 Message = $"Element is not visible after {seconds} sec"
             };
             try
@@ -63,7 +63,7 @@ namespace Yugo.Pages.VotePage
                 {
                     try
                     {
-                        if (element.Text.Replace("\r\n", "") == "00:00:00:00")
+                        if (TimeSpan.Parse(element.Text.Replace("\r\n", "")) == TimeSpan.Zero)
                         {
                             return true;
                         }
