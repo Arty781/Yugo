@@ -55,7 +55,7 @@ namespace Yugo.Pages.VotePage
         }
 
 
-        private static void WaitUntilTimerIsZero(IWebElement element, int seconds = 900)
+        private static void WaitUntilTimerIsZero(IWebElement element, int seconds = 1800)
         {
             WebDriverWait wait = new(Browser._Driver, TimeSpan.FromSeconds(seconds))
             {
