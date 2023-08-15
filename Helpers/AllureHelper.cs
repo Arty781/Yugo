@@ -13,7 +13,7 @@ namespace Base_Temlate.Helpers
     public class AllureHelper
     {
         
-        public void GoToAllureResults()
+        public static void GoToAllureResults()
         {
             CreateAllureFile();
             Process.Start(Browser.RootPath() + "allure serve" + OS.FileExtention());
@@ -23,7 +23,7 @@ namespace Base_Temlate.Helpers
             string path = Browser.RootPath() + "allure serve" + OS.FileExtention();
             string allureResultDirectory = Browser.RootPath() + @"\allure-results";
             string allureResults = @"allure serve " + allureResultDirectory;
-            FileInfo fileInfo = new FileInfo(path);
+            FileInfo fileInfo = new(path);
             if (fileInfo.Exists)
             {
                 fileInfo.Delete();
@@ -32,7 +32,7 @@ namespace Base_Temlate.Helpers
             {
                 Directory.CreateDirectory(allureResultDirectory);
             }
-            using (FileStream fstream = new FileStream(path, FileMode.OpenOrCreate))
+            using (FileStream fstream = new(path, FileMode.OpenOrCreate))
             {
                 byte[] arr = Encoding.Default.GetBytes(allureResults);
                 fstream.Write(arr, 0, arr.Length);
@@ -95,18 +95,16 @@ namespace Base_Temlate.Helpers
 
         public static void CreateJsonConfigFile()
         {
-            FileInfo fileInf = new FileInfo(Path.GetFullPath(Path.Combine(AppContext.BaseDirectory)) + "allureConfig.json");
+            FileInfo fileInf = new(Path.GetFullPath(Path.Combine(AppContext.BaseDirectory)) + "allureConfig.json");
             if (fileInf.Exists == true)
             {
                 fileInf.Delete();
             }
             string mainpath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory)) + "allureConfig.json";
-            using (StreamWriter file = File.CreateText(mainpath))
-            {
-                JsonSerializer serializer = new JsonSerializer();
-                //serialize object directly into file stream
-                serializer.Serialize(file, Json());
-            }
+            using StreamWriter file = File.CreateText(mainpath);
+            JsonSerializer serializer = new();
+            //serialize object directly into file stream
+            serializer.Serialize(file, Json());
 
 
         }
@@ -118,96 +116,96 @@ namespace CONFIG_JSON
     public partial class ConfigJson
     {
         [JsonProperty("allure")]
-        public Allure Allure { get; set; }
+        public Allure? Allure { get; set; }
 
         [JsonProperty("specflow")]
-        public Specflow Specflow { get; set; }
+        public Specflow? Specflow { get; set; }
     }
 
     public partial class Allure
     {
         [JsonProperty("directory")]
-        public string Directory { get; set; }
+        public string? Directory { get; set; }
 
         [JsonProperty("links")]
-        public List<string> Links { get; set; }
+        public List<string>? Links { get; set; }
     }
 
     public partial class Specflow
     {
         [JsonProperty("stepArguments")]
-        public StepArguments StepArguments { get; set; }
+        public StepArguments? StepArguments { get; set; }
 
         [JsonProperty("grouping")]
-        public Grouping Grouping { get; set; }
+        public Grouping? Grouping { get; set; }
 
         [JsonProperty("labels")]
-        public Labels Labels { get; set; }
+        public Labels? Labels { get; set; }
 
         [JsonProperty("links")]
-        public Links Links { get; set; }
+        public Links? Links { get; set; }
     }
 
     public partial class Grouping
     {
         [JsonProperty("suites")]
-        public Suites Suites { get; set; }
+        public Suites? Suites { get; set; }
 
         [JsonProperty("behaviors")]
-        public Behaviors Behaviors { get; set; }
+        public Behaviors? Behaviors { get; set; }
     }
 
     public partial class Behaviors
     {
         [JsonProperty("epic")]
-        public string Epic { get; set; }
+        public string? Epic { get; set; }
 
         [JsonProperty("story")]
-        public string Story { get; set; }
+        public string? Story { get; set; }
     }
 
     public partial class Suites
     {
         [JsonProperty("parentSuite")]
-        public string ParentSuite { get; set; }
+        public string? ParentSuite { get; set; }
 
         [JsonProperty("suite")]
-        public string Suite { get; set; }
+        public string? Suite { get; set; }
 
         [JsonProperty("subSuite")]
-        public string SubSuite { get; set; }
+        public string? SubSuite { get; set; }
     }
 
     public partial class Labels
     {
         [JsonProperty("owner")]
-        public string Owner { get; set; }
+        public string? Owner { get; set; }
 
         [JsonProperty("severity")]
-        public string Severity { get; set; }
+        public string? Severity { get; set; }
     }
 
     public partial class Links
     {
         [JsonProperty("tms")]
-        public string Tms { get; set; }
+        public string? Tms { get; set; }
 
         [JsonProperty("issue")]
-        public string Issue { get; set; }
+        public string? Issue { get; set; }
 
         [JsonProperty("link")]
-        public string Link { get; set; }
+        public string? Link { get; set; }
     }
 
     public partial class StepArguments
     {
         [JsonProperty("convertToParameters")]
-        public bool ConvertToParameters { get; set; }
+        public bool? ConvertToParameters { get; set; }
 
         [JsonProperty("paramNameRegex")]
-        public string ParamNameRegex { get; set; }
+        public string? ParamNameRegex { get; set; }
 
         [JsonProperty("paramValueRegex")]
-        public string ParamValueRegex { get; set; }
+        public string? ParamValueRegex { get; set; }
     }
 }

@@ -17,7 +17,7 @@ namespace Yugo.Pages.VotePage
     {
         public Vote GoToVotePage()
         {
-            Browser._Driver.Navigate().GoToUrl(Endpoints.VOTE_PAGE);
+            Browser.Driver.Navigate().GoToUrl(Endpoints.VOTE_PAGE);
             WaitHelpers.CustomElementIsVisible(linkVoteSidebar);
 
             return this;
@@ -26,7 +26,7 @@ namespace Yugo.Pages.VotePage
         public Vote Voting()
         {
             GetVotePoints(out int votePointsBefore);
-            WaitHelpers.CustomElementIsVisible(cardVote.FirstOrDefault());
+            WaitHelpers.CustomElementIsVisible(cardVote.FirstOrDefault() ?? throw new Exception("Element is NULL"));
             for (int i = 0; i < 8; i++)
             {
                 GoToVotePage();
@@ -57,7 +57,7 @@ namespace Yugo.Pages.VotePage
 
         private static void WaitUntilTimerIsZero(IWebElement element, int seconds = 1800)
         {
-            WebDriverWait wait = new(Browser._Driver, TimeSpan.FromSeconds(seconds))
+            WebDriverWait wait = new(Browser.Driver, TimeSpan.FromSeconds(seconds))
             {
                 PollingInterval = TimeSpan.FromMilliseconds(50),
                 Message = $"Element is not visible after {seconds} sec"

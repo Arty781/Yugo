@@ -17,7 +17,7 @@ namespace Yugo.Helpers
         public static void Click(IWebElement element)
         {
             WaitHelpers.WaitSomeInterval(300);
-            WebDriverWait wait = new WebDriverWait(Browser._Driver, TimeSpan.FromSeconds(10))
+            WebDriverWait wait = new WebDriverWait(Browser.Driver, TimeSpan.FromSeconds(10))
             {
                 PollingInterval = TimeSpan.FromMilliseconds(50)
             };
@@ -46,7 +46,7 @@ namespace Yugo.Helpers
         public static void ClickJS(IWebElement element)
         {
             WaitHelpers.WaitSomeInterval();
-            IJavaScriptExecutor ex = (IJavaScriptExecutor)Browser._Driver;
+            IJavaScriptExecutor ex = (IJavaScriptExecutor)Browser.Driver;
             ex.ExecuteScript("arguments[0].click();", element);
         }
 
@@ -108,7 +108,7 @@ namespace Yugo.Helpers
        
         public static void Action(string key)
         {
-            Actions actions = new(Browser._Driver);
+            Actions actions = new(Browser.Driver);
             actions.SendKeys(key);
             actions.Perform();
             WaitHelpers.WaitSomeInterval(700);

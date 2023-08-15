@@ -6,8 +6,11 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Yugo", "Yugo.csproj", "{E608B3BF-A405-4AF2-B870-F2241A374DE6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E1AD0038-C1C7-4F53-A7DA-82BDD89DDB3F}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YugoTests", "YugoTests\YugoTests.csproj", "{E6FAF47A-CC64-424B-A048-BA27BE0A05B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YugoTests", "YugoTests\YugoTests.csproj", "{E6FAF47A-CC64-424B-A048-BA27BE0A05B5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

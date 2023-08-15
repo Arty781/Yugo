@@ -19,7 +19,7 @@ namespace Yugo.Helpers
         public static void CustomElementIsVisible(IWebElement element, int seconds = 10)
         {
             Task.Delay(TimeSpan.FromMilliseconds(250)).Wait();
-            WebDriverWait wait = new(Browser._Driver, TimeSpan.FromSeconds(seconds))
+            WebDriverWait wait = new(Browser.Driver, TimeSpan.FromSeconds(seconds))
             {
                 PollingInterval = TimeSpan.FromMilliseconds(50),
                 Message = $"Element is not visible after {seconds} seconds"
@@ -46,7 +46,7 @@ namespace Yugo.Helpers
         public static void CustomElementIsInvisible(IWebElement element, int seconds = 10)
         {
             Task.Delay(TimeSpan.FromMilliseconds(150)).Wait();
-            WebDriverWait wait = new(Browser._Driver, TimeSpan.FromSeconds(seconds))
+            WebDriverWait wait = new(Browser.Driver, TimeSpan.FromSeconds(seconds))
             {
                 PollingInterval = TimeSpan.FromMilliseconds(100)
             };

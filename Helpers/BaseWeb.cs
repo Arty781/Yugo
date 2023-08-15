@@ -12,22 +12,12 @@ namespace Base_Temlate.Helpers
     public class BaseWeb
     {
         [OneTimeSetUp]
-        public static void OneTimeSetUp()
-        {
-            Browser.Initialize();
-            AllureHelper.CreateAllureFile();
-        }
+        public static void OneTimeSetUp() => Browser.Initialize();
 
         [TearDown]
-        public static void TearDown()
-        {
-            Browser._Driver?.Close();
-        }
+        public static void TearDown() => Browser.Driver.Close();
 
         [OneTimeTearDown]
-        public static void OneTimeTearDown()
-        {
-            Browser._Driver?.Dispose();
-        }
+        public static void OneTimeTearDown() => Browser.Driver.Dispose();
     }
 }

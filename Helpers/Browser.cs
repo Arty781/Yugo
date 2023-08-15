@@ -13,7 +13,7 @@ namespace Base_Temlate.Helpers
 {
     public class Browser
     {
-        private static IWebDriver _driver { get; set; }
+        private static IWebDriver InitDriver { get; set; }
         public static void Initialize()
         {
             AllureHelper.CreateJsonConfigFile();
@@ -21,18 +21,16 @@ namespace Base_Temlate.Helpers
             options.AddArgument("--headless");
             options.AddArgument("--window-size=1920,1020");
             new DriverManager().SetUpDriver(new ChromeConfig());
-            _driver = new ChromeDriver(options);
-            _driver.Manage().Cookies.DeleteAllCookies();
-            Assert.That(_driver, Is.Not.Null);
+            InitDriver = new ChromeDriver(options);
+            InitDriver.Manage().Cookies.DeleteAllCookies();
+            Assert.That(InitDriver, Is.Not.Null);
         }
 
         public static string RootPath()
         {
-            string rootPath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..\\..\\..\\..\\"));
-            return rootPath;
+            return Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..\\..\\..\\..\\"));
         }
 
-        public static ISearchContext Driver => _driver;
-        public static IWebDriver _Driver => _driver;
+        public static IWebDriver Driver => InitDriver;
     }
 }

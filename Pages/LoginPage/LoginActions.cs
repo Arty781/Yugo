@@ -7,7 +7,7 @@ namespace Base_Temlate.PageObjects
     {
         public Login SignIn()
         {
-            Browser._Driver.Navigate().GoToUrl("https://yugowow.com/en/login");
+            Browser.Driver.Navigate().GoToUrl("https://yugowow.com/en/login");
             WaitHelpers.CustomElementIsVisible(btnLogin);
             InputBox.Element(inputUsername, 10, "lordecses");
             InputBox.Element(inputPassword, 10, "Qwerty123");

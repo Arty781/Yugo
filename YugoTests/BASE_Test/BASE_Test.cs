@@ -7,16 +7,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Template_Test.BASE_Test
+namespace Template_Test
 {
     [AllureNUnit]
     public class BASE : BaseWeb
     {
         [SetUp]
-        public void SetUp()
-        {
-            Browser._Driver.Navigate()
-                           .GoToUrl(Endpoints.BASE_URL);
-        }
+        public void SetUp() => Browser.Driver.Navigate().GoToUrl(Endpoints.BASE_URL);
     }
 }

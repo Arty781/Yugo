@@ -16,16 +16,13 @@ namespace Base_Temlate.PageObjects
         private static T GetPage<T>() where T : new()
         {
             var page = new T();
-            IWebDriver driver = Browser._Driver;
+            IWebDriver driver = Browser.Driver;
             PageFactory.InitElements(driver, page);
             return page;
         }
 
         public static Login Login => GetPage<Login>();
         public static Vote Vote => GetPage<Vote>();
-
-        //public static TemplatePage TemplatePage => GetPage<TemplatePage>();
-        //public static TemplatePage TemplatePage => GetPage<TemplatePage>();
 
     }
 }

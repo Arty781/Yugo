@@ -11,7 +11,7 @@ namespace Template_Test
 {
     [AllureNUnit]
     [TestFixture]
-    public class Yugo : BASE_Test.BASE
+    public class Yugo : BASE
     {
         [Test]
         public void Login()
@@ -20,7 +20,6 @@ namespace Template_Test
                 .SignIn();
             Pages.Vote
                 .Voting();
-
         }
 
     }
