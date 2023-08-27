@@ -27,6 +27,6 @@ jobs:
       - name: Build and run tests
         run: |
           dotnet build --configuration Release --no-restore
-          cd bin/Debug/net6.0
+          cd bin/Release/net6.0
           pwsh ./playwright.ps1  install
           dotnet test --configuration Release  --no-restore --filter FullyQualifiedName~Template_Test.Yugo
