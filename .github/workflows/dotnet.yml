@@ -12,6 +12,7 @@ on:
 
 jobs:
   test:
+    timeout-minutes: 60
     runs-on: windows-latest
 
     steps:
@@ -20,11 +21,14 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 6.x  # Adjust the .NET version as needed
-      
+
       - name: Restore dependencies
         run: dotnet restore
 
       - name: Build and run tests
         run: |
           dotnet build --configuration Release --no-restore
+          cd D:/a/Yugo/Yugo/bin/Release/net6.0
+          pwsh ./playwright.ps1 install
+          cd ../../..  # Return to the root folder
           dotnet test --configuration Release  --no-restore --filter FullyQualifiedName~Template_Test.Yugo
