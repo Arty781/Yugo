@@ -32,4 +32,8 @@
     <ProjectReference Include="..\Yugo.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="BASE_Test\" />
+  </ItemGroup>
+
 </Project>

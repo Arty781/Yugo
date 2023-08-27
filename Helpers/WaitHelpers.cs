@@ -6,68 +6,37 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Playwright;
 
 namespace Yugo.Helpers
 {
     public class WaitHelpers
     {
-        public static void WaitSomeInterval(int ms = 2000)
+        public static async Task WaitSomeInterval(int ms = 2000)
         {
-            Task.Delay(TimeSpan.FromMilliseconds(ms)).Wait();
+            await Browser.Driver.WaitForTimeoutAsync(ms);
         }
 
-        public static void CustomElementIsVisible(IWebElement element, int seconds = 10)
+        public static async Task CustomElementIsVisible(string element, int milliSeconds = 10000)
         {
-            Task.Delay(TimeSpan.FromMilliseconds(250)).Wait();
-            WebDriverWait wait = new(Browser.Driver, TimeSpan.FromSeconds(seconds))
+            await Browser.Driver.WaitForTimeoutAsync(250);
+            PageWaitForSelectorOptions waitOptions = new()
             {
-                PollingInterval = TimeSpan.FromMilliseconds(50),
-                Message = $"Element is not visible after {seconds} seconds"
+                Timeout = milliSeconds,
+                State = WaitForSelectorState.Attached
             };
-            try
-            {
-                wait.Until(e =>
-                {
-                    try
-                    {
-                        if (element != null && element.Displayed)
-                        {
-                            return true;
-                        }
-                        return false;
-                    }
-                    catch (Exception) { return false; }
-
-                });
-            }
-            catch (Exception) { }
+            await Browser.Driver.WaitForSelectorAsync(element, waitOptions);
         }
 
-        public static void CustomElementIsInvisible(IWebElement element, int seconds = 10)
+        public static async Task CustomElementIsInvisible(string element, int milliSeconds = 10000)
         {
-            Task.Delay(TimeSpan.FromMilliseconds(150)).Wait();
-            WebDriverWait wait = new(Browser.Driver, TimeSpan.FromSeconds(seconds))
+            await Browser.Driver.WaitForTimeoutAsync(250);
+            PageWaitForSelectorOptions waitOptions = new()
             {
-                PollingInterval = TimeSpan.FromMilliseconds(100)
+                Timeout = milliSeconds,
+                State = WaitForSelectorState.Detached
             };
-            try
-            {
-                wait.Until(e =>
-                {
-                    try
-                    {
-                        if (element != null && element.Enabled)
-                        {
-                            return false;
-                        }
-                        return true;
-                    }
-                    catch (Exception) { return true; }
-
-                });
-            }
-            catch (NoSuchElementException) { throw new NoSuchElementException(); }
-            catch (StaleElementReferenceException) { throw new StaleElementReferenceException(); }
+            await Browser.Driver.WaitForSelectorAsync(element, waitOptions);
 
         }
     }

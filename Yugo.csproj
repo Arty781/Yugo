@@ -25,6 +25,9 @@
     <PackageReference Include="DotNetSeleniumExtras.PageObjects.Core" Version="4.3.0" />
     <PackageReference Include="DotNetSeleniumExtras.WaitHelpers" Version="3.11.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
+    <PackageReference Include="Microsoft.Playwright" Version="1.37.1" />
+    <PackageReference Include="Microsoft.Playwright.NUnit" Version="1.37.1" />
+    <PackageReference Include="Microsoft.Playwright.TestAdapter" Version="1.37.1" />
     <PackageReference Include="NUnit" Version="3.13.3" />
     <PackageReference Include="NUnit.Allure" Version="1.2.0.1" />
     <PackageReference Include="NUnit.Allure.Steps" Version="1.0.7.1" />

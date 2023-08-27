@@ -1,4 +1,5 @@
-﻿using NUnit.Allure.Core;
+﻿using Microsoft.Playwright.NUnit;
+using NUnit.Allure.Core;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -9,15 +10,22 @@ using System.Threading.Tasks;
 namespace Base_Temlate.Helpers
 {
     [AllureNUnit]
-    public class BaseWeb
+    public class BaseWeb : PlaywrightTest
     {
-        [OneTimeSetUp]
-        public static void OneTimeSetUp() => Browser.Initialize();
+
+        [SetUp]
+        public async Task SetUp()
+        {
+            await Browser.Initialize();
+            await Browser.Driver.GotoAsync(Endpoints.BASE_URL);
+        }
 
         [TearDown]
-        public static void TearDown() => Browser.Driver.Close();
+        public async Task TearDown()
+        {
+            await Browser.Driver.CloseAsync();
+            await Browser.BrowserContext.CloseAsync();
+        }
 
-        [OneTimeTearDown]
-        public static void OneTimeTearDown() => Browser.Driver.Dispose();
     }
 }

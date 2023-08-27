@@ -10,16 +10,9 @@ namespace Base_Temlate.PageObjects
 {
     public partial class Login
     {
-        [FindsBy(How = How.Id, Using = "login_username")]
-        public IWebElement inputUsername;
-
-        [FindsBy(How = How.Id, Using = "login_password")]
-        public IWebElement inputPassword;
-
-        [FindsBy(How = How.Id, Using = "button_login")]
-        public IWebElement btnLogin;
-
-        [FindsBy(How=How.XPath,Using = "//img[@alt='Avatar']")]
-        public IWebElement iconAvatar;
+        public const string inputUsername = "#login_username";
+        public const string inputPassword = "#login_password";
+        public const string btnLogin = "#button_login";
+        public const string iconAvatar = "//img[@alt='Avatar']";
     }
 }

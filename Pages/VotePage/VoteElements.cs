@@ -10,23 +10,13 @@ namespace Yugo.Pages.VotePage
 {
     public partial class Vote
     {
-        [FindsBy(How = How.XPath, Using = "//div[@class= 'uk-card uk-card-vote']")]
-        public IList<IWebElement> cardVote;
-
-        [FindsBy(How = How.XPath, Using = "//button[text()=' Vote']")]
-        public IList<IWebElement> btnVote;
-
-        [FindsBy(How = How.XPath, Using = "//h4[text()='Vote']]")]
-        public IWebElement titleVote;
-
-        [FindsBy(How=How.XPath, Using = "//a[text()=' Vote Panel']")]
-        public IWebElement linkVoteSidebar;
-
-        [FindsBy(How=How.XPath, Using = "//div[@class='uk-navbar-item']//li[2]")]
-        public IWebElement textVotePoints;
-
-        [FindsBy(How=How.XPath,Using = "//div[@uk-countdown]")]
-        public IList<IWebElement> countdownTimer;
+        public const string cardVote = "//div[@class= 'uk-card uk-card-vote']";
+        public const string btnVote = "//button[text()=' Vote']";
+        public const string titleVote = "//h4[text()='Vote']]";
+        public const string linkVoteSidebar = "//a[text()=' Vote Panel']";
+        public const string textVotePoints = "//div[@class='uk-navbar-item']//li[2]";
+        public const string countdownTimer = "//div[@uk-countdown]";
+        public const string lastCardCounter = "//div[8]//div/div[@uk-countdown]";
 
     }
 }

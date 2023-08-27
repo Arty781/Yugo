@@ -9,126 +9,56 @@ using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Playwright;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Yugo.Helpers
 {
     public class Button
     {
-        public static void Click(IWebElement element)
+        public static async Task Click(string element)
         {
-            WaitHelpers.WaitSomeInterval(300);
-            WebDriverWait wait = new WebDriverWait(Browser.Driver, TimeSpan.FromSeconds(10))
-            {
-                PollingInterval = TimeSpan.FromMilliseconds(50)
-            };
-            try
-            {
-                wait.Until(e =>
-                {
-                    try
-                    {
-                        if (element != null && element.Enabled)
-                        {
-                            return true;
-                        }
-                        return false;
-                    }
-                    catch (Exception) { return false; }
-
-                });
-                element.Click();
-                WaitHelpers.WaitSomeInterval(350);
-            }
-            catch (Exception) { }
+            await WaitHelpers.WaitSomeInterval(300);
+            await WaitHelpers.CustomElementIsVisible(element);
+            PageQuerySelectorOptions options = new() { Strict = true };
+            await Browser.Driver.QuerySelectorAsync(element, options).Result.ClickAsync();
 
         }
 
-        public static void ClickJS(IWebElement element)
-        {
-            WaitHelpers.WaitSomeInterval();
-            IJavaScriptExecutor ex = (IJavaScriptExecutor)Browser.Driver;
-            ex.ExecuteScript("arguments[0].click();", element);
-        }
 
 
 
     }
     public class InputBox
     {
-        public static IWebElement Element(IWebElement element, int seconds, string data)
+        public static async Task Element(string element, int milliSeconds, string data)
         {
-            WaitHelpers.WaitSomeInterval(250);
-            WaitHelpers.CustomElementIsVisible(element, seconds);
-            element.SendKeys(Keyss.Control() + "A" + Keys.Delete);
-            WaitHelpers.WaitSomeInterval(250);
-            element.SendKeys(data);
-
-            return element;
+            await WaitHelpers.WaitSomeInterval(250);
+            await WaitHelpers.CustomElementIsVisible(element, milliSeconds);
+            await Browser.Driver.FocusAsync(element);
+            await Browser.Driver.Keyboard.PressAsync("Control+A");
+            await Browser.Driver.Keyboard.PressAsync("Backspace");
+            await Browser.Driver.QuerySelectorAsync(element).Result.FillAsync(data);
         }
 
-        public static IWebElement ElementImage(IWebElement element, int seconds, string data)
-        {
-            WaitHelpers.CustomElementIsVisible(element, seconds);
-            WaitHelpers.WaitSomeInterval(250);
-            element.SendKeys(data);
-
-            return element;
-        }
-
-        public static IWebElement CbbxElement(IWebElement element, int seconds, string data)
-        {
-
-            WaitHelpers.CustomElementIsVisible(element, seconds);
-            element.SendKeys(data + Keys.Enter);
-
-            return element;
-        }
 
 
     }
 
     public class TextBox
     {
-        public static string GetText(IWebElement element)
+        public static async Task<string> GetText(string element)
         {
-            WaitHelpers.CustomElementIsVisible(element);
-            return element.Text;
+            await WaitHelpers.CustomElementIsVisible(element);
+            return (await Browser.Driver.QuerySelectorAsync(element)).TextContentAsync().Result;
         }
 
-        public static string GetAttribute(IWebElement element, string attribute)
+        public static async Task<string> GetAttribute(string element, string attribute)
         {
-            WaitHelpers.CustomElementIsVisible(element);
-            return element.GetAttribute(attribute);
+            await WaitHelpers.CustomElementIsVisible(element);
+            return (await Browser.Driver.QuerySelectorAsync(element)).GetAttributeAsync(attribute).Result;
 
-        }
-    }
-
-    public class Element
-    {
-       
-        public static void Action(string key)
-        {
-            Actions actions = new(Browser.Driver);
-            actions.SendKeys(key);
-            actions.Perform();
-            WaitHelpers.WaitSomeInterval(700);
         }
     }
 
-    public class Keyss
-    {
-        public static string Control()
-        {
-            string control = String.Empty;
-            if (OperatingSystem.IsWindows())
-            {
-                control = Keys.Control;
-            }
-            else if (OperatingSystem.IsMacOS() || OperatingSystem.IsLinux())
-            {
-                control = Keys.Command;
-            }
-            return control;
-        }
-    }
 }

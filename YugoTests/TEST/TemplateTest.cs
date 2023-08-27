@@ -1,4 +1,5 @@
-﻿using Base_Temlate.PageObjects;
+﻿using Base_Temlate.Helpers;
+using Base_Temlate.PageObjects;
 using NUnit.Allure.Core;
 using NUnit.Framework;
 using System;
@@ -6,20 +7,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Yugo.Pages.VotePage;
 
 namespace Template_Test
 {
     [AllureNUnit]
     [TestFixture]
-    public class Yugo : BASE
+    public class Yugo : BaseWeb
     {
         [Test]
-        public void Login()
+        public async Task Voting()
         {
-            Pages.Login
-                .SignIn();
-            Pages.Vote
-                .Voting();
+            await Login.SignIn();
+            await Vote.Voting();
         }
 
     }

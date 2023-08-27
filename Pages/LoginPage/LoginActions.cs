@@ -5,16 +5,14 @@ namespace Base_Temlate.PageObjects
 {
     public partial class Login
     {
-        public Login SignIn()
+        public static async Task SignIn()
         {
-            Browser.Driver.Navigate().GoToUrl("https://yugowow.com/en/login");
-            WaitHelpers.CustomElementIsVisible(btnLogin);
-            InputBox.Element(inputUsername, 10, "lordecses");
-            InputBox.Element(inputPassword, 10, "Qwerty123");
-            Button.Click(btnLogin);
-            WaitHelpers.CustomElementIsVisible(iconAvatar);
-
-            return this;
+            await Browser.Driver.GotoAsync("https://yugowow.com/en/login");
+            await WaitHelpers.CustomElementIsVisible(btnLogin);
+            await InputBox.Element(inputUsername, 10, "lordecses");
+            await InputBox.Element(inputPassword, 10, "Qwerty123");
+            await Button.Click(btnLogin);
+            await WaitHelpers.CustomElementIsVisible(iconAvatar);
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using Allure.Commons;
 using Base_Temlate.Helpers;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
+using Microsoft.Playwright;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,83 +14,94 @@ namespace Yugo.Pages.VotePage
 {
     public partial class Vote
     {
-        public Vote GoToVotePage()
+        public static async Task GoToVotePage()
         {
-            Browser.Driver.Navigate().GoToUrl(Endpoints.VOTE_PAGE);
-            WaitHelpers.CustomElementIsVisible(linkVoteSidebar);
-
-            return this;
+            await Browser.Driver.GotoAsync(Endpoints.VOTE_PAGE);
+            await WaitHelpers.CustomElementIsVisible(linkVoteSidebar);
         }
 
-        public Vote Voting()
+        public static async Task Voting()
         {
-            GetVotePoints(out int votePointsBefore);
-            WaitHelpers.CustomElementIsVisible(cardVote.FirstOrDefault() ?? throw new Exception("Element is NULL"));
+            int votePointsBefore = await GetVotePoints();
+            await WaitHelpers.CustomElementIsVisible(cardVote);
+            await WaitUntilTimerIsZero();
             for (int i = 0; i < 8; i++)
             {
-                GoToVotePage();
-                WaitUntilTimerIsZero(VoteCounter(i));
+                await GoToVotePage();
+                await WaitHelpers.WaitSomeInterval(2000);
+                await BtnVote(i).Result.ClickAsync();
+                await WaitHelpers.WaitSomeInterval(2000);
             }
-            for (int i = 0; i < 8; i++)
-            {
-                GoToVotePage();
-                WaitUntilTimerIsZero(VoteCounter(i));
-                WaitHelpers.WaitSomeInterval(1000);
-                Button.Click(BtnVote(i));
-                WaitHelpers.WaitSomeInterval(1000);
-            }
-            GoToVotePage();
-            GetVotePoints(out int votePointsAfter);
+            await GoToVotePage();
+            int votePointsAfter = await GetVotePoints();
             Console.WriteLine($"Total votepoints: {votePointsAfter} \r\n added points: +{votePointsAfter - votePointsBefore}");
-            return this;
         }
 
-        public Vote GetVotePoints(out int votePoints)
+        public static async Task<int> GetVotePoints()
         {
-            WaitHelpers.CustomElementIsVisible(textVotePoints);
-            votePoints = int.Parse(textVotePoints.Text);
-            GoToVotePage();
-            return this;
+            await WaitHelpers.CustomElementIsVisible(textVotePoints);
+            int votePoints = int.Parse(await TextBox.GetText(textVotePoints));
+            await GoToVotePage();
+            return votePoints;
         }
 
 
-        private static void WaitUntilTimerIsZero(IWebElement element, int seconds = 1800)
+        private static async Task WaitUntilTimerIsZero(int seconds = 1800)
         {
-            WebDriverWait wait = new(Browser.Driver, TimeSpan.FromSeconds(seconds))
+            await WaitHelpers.CustomElementIsVisible(lastCardCounter);
+            var waitTimeout = TimeSpan.FromSeconds(seconds);
+            var pollingInterval = TimeSpan.FromMilliseconds(50);
+            var startTime = DateTime.Now;
+
+            bool IsExpectedTimeSpan(string countdown)
             {
-                PollingInterval = TimeSpan.FromMilliseconds(50),
-                Message = $"Element is not visible after {seconds} sec"
-            };
-            try
-            {
-                wait.Until(e =>
+                if (TimeSpan.TryParse(countdown.Replace("\n\n", ""), out var timeSpan) && timeSpan == TimeSpan.Zero)
                 {
-                    try
-                    {
-                        if (TimeSpan.Parse(element.Text.Replace("\r\n", "")) == TimeSpan.Zero)
-                        {
-                            return true;
-                        }
-                        return false;
-                    }
-                    catch (Exception) { return false; }
-
-                });
+                    return true;
+                }
+                return false;
             }
-            catch (NoSuchElementException) { throw new NoSuchElementException(); }
-            catch (StaleElementReferenceException) { throw new StaleElementReferenceException(); }
+
+            while (DateTime.Now - startTime < waitTimeout)
+            {
+                try
+                {
+                    if(IsExpectedTimeSpan((await Browser.Driver.QuerySelectorAsync(lastCardCounter)).TextContentAsync().Result) == true)
+                    {
+                        // Condition met, break the loop
+                        break;
+                    }
+                    await Task.Delay(pollingInterval);
+
+                }
+                catch (TimeoutException)
+                {
+                    throw new TimeoutException();
+                }
+                catch (PlaywrightException ex) when (ex.Message.Contains("No node found for selector"))
+                {
+                    throw new PlaywrightException("Element not found");
+                }
+                catch (PlaywrightException ex) when (ex.Message.Contains("execution context was destroyed"))
+                {
+                    throw new PlaywrightException("Element reference is stale");
+                }
+
+                // Sleep for pollingInterval before the next attempt
+                await Task.Delay(pollingInterval);
+            }
         }
 
-        private IWebElement BtnVote(int num)
+        private static async Task<IElementHandle> BtnVote(int num)
         {
-            var card = cardVote[num];
-            return _ = card.FindElement(By.XPath(".//button[text()=' Vote']"));
+            return (await Browser.Driver.QuerySelectorAllAsync(btnVote))[num];
         }
 
-        private IWebElement VoteCounter(int num)
+        private static async Task<IElementHandle> VoteCounter(int num)
         {
-            var card = cardVote[num];
-            return _ = card.FindElement(By.XPath(".//div[@uk-countdown]"));
+            var card = (await Browser.Driver.QuerySelectorAllAsync(cardVote))[num];
+            return await card.QuerySelectorAsync(".//div[@uk-countdown]");
         }
+
     }
 }
