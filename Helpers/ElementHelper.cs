@@ -31,7 +31,7 @@ namespace Yugo.Helpers
     }
     public class InputBox
     {
-        public static async Task Element(string element, int milliSeconds, string data)
+        public static async Task Element(string element, string data, int milliSeconds = 10000)
         {
             await WaitHelpers.WaitSomeInterval(250);
             await WaitHelpers.CustomElementIsVisible(element, milliSeconds);
