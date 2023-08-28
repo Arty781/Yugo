@@ -1,16 +1,5 @@
 ﻿using Base_Temlate.Helpers;
-using Base_Temlate.PageObjects;
-using OpenQA.Selenium.Interactions;
-using OpenQA.Selenium.Support.UI;
-using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.Metrics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Playwright;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Yugo.Helpers
 {

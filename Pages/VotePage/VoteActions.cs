@@ -1,13 +1,5 @@
-﻿using Allure.Commons;
-using Base_Temlate.Helpers;
+﻿using Base_Temlate.Helpers;
 using Microsoft.Playwright;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Yugo.Helpers;
 
 namespace Yugo.Pages.VotePage
@@ -53,7 +45,7 @@ namespace Yugo.Pages.VotePage
             var pollingInterval = TimeSpan.FromMilliseconds(50);
             var startTime = DateTime.Now;
 
-            bool IsExpectedTimeSpan(string countdown)
+            static bool IsExpectedTimeSpan(string countdown)
             {
                 if (TimeSpan.TryParse(countdown.Replace("\n\n", ""), out var timeSpan) && timeSpan == TimeSpan.Zero)
                 {
