@@ -7,8 +7,8 @@ on:
   pull_request:
     branches:
       - master  # Adjust the branch name as needed
-  schedule:
-    - cron: "0 11,23 * * *"
+  # schedule:
+  #  - cron: "0 11,23 * * *"
 
 jobs:
   test:
