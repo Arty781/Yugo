@@ -13,7 +13,7 @@ namespace Base_Temlate.Helpers
             var pl = await Playwright.CreateAsync();
             var browser = await pl.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
             {
-                Headless = true
+                Headless = false
 
             });
             browserContext = await browser.NewContextAsync();

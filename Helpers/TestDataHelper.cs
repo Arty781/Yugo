@@ -20,7 +20,7 @@
     }
     public class Endpoints
     {
-        public const string BASE_URL = "https://yugowow.com/en/";
+        public const string BASE_URL = "https://yugowow.com/en/login";
         public const string VOTE_PAGE = "https://yugowow.com/en/vote";
     }
 }

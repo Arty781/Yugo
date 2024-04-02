@@ -1,5 +1,6 @@
 ﻿using Microsoft.Playwright.NUnit;
 using NUnit.Framework;
+using NUnit.Framework.Interfaces;
 
 namespace Base_Temlate.Helpers
 {
@@ -16,6 +17,8 @@ namespace Base_Temlate.Helpers
         [TearDown]
         public async Task TearDown()
         {
+            TestStatus testStatus = TestContext.CurrentContext.Result.Outcome.Status;
+            _ = testStatus == TestStatus.Failed ? TelegramHelper.SendMessage() : null;
             await Browser.Driver.CloseAsync();
             await Browser.BrowserContext.CloseAsync();
         }
