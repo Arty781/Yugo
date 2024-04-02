@@ -1,5 +1,7 @@
 ﻿using Base_Temlate.Helpers;
 using Microsoft.Playwright;
+using System.Diagnostics;
+using System.Xml.Linq;
 using Yugo.Helpers;
 
 namespace Yugo.Pages.VotePage
@@ -37,15 +39,14 @@ namespace Yugo.Pages.VotePage
             return votePoints;
         }
 
-
         private static async Task WaitUntilTimerIsZero(int seconds = 1800)
         {
             await WaitHelpers.CustomElementIsVisible(lastCardCounter);
             var waitTimeout = TimeSpan.FromSeconds(seconds);
             var pollingInterval = TimeSpan.FromMilliseconds(50);
-            var startTime = DateTime.Now;
+            var stopwatch = Stopwatch.StartNew();
 
-            static bool IsExpectedTimeSpan(string countdown)
+            bool IsExpectedTimeSpan(string countdown)
             {
                 if (TimeSpan.TryParse(countdown.Replace("\n\n", ""), out var timeSpan) && timeSpan == TimeSpan.Zero)
                 {
@@ -54,17 +55,17 @@ namespace Yugo.Pages.VotePage
                 return false;
             }
 
-            while (DateTime.Now - startTime < waitTimeout)
+            while (stopwatch.Elapsed < waitTimeout)
             {
                 try
                 {
-                    if(IsExpectedTimeSpan((await Browser.Driver.QuerySelectorAsync(lastCardCounter)).TextContentAsync().Result) == true)
+                    var time = (await Browser.Driver.QuerySelectorAsync(lastCardCounter)).TextContentAsync().Result;
+                    if (IsExpectedTimeSpan(time))
                     {
                         // Condition met, break the loop
                         break;
                     }
                     await Task.Delay(pollingInterval);
-
                 }
                 catch (TimeoutException)
                 {
@@ -81,6 +82,13 @@ namespace Yugo.Pages.VotePage
 
                 // Sleep for pollingInterval before the next attempt
                 await Task.Delay(pollingInterval);
+            }
+
+            stopwatch.Stop();
+
+            if (!IsExpectedTimeSpan(await (await Browser.Driver.QuerySelectorAsync(lastCardCounter)).TextContentAsync()))
+            {
+                throw new TimeoutException("Expected time span not reached within the specified duration.");
             }
         }
 
