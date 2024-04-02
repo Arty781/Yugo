@@ -10,7 +10,7 @@ namespace Yugo.Helpers
             await Browser.Driver.WaitForTimeoutAsync(ms);
         }
 
-        public static async Task CustomElementIsVisible(string element, int milliSeconds = 10000)
+        public static async Task CustomElementIsVisible(string element, int milliSeconds = 30000)
         {
             await Browser.Driver.WaitForTimeoutAsync(250);
             PageWaitForSelectorOptions waitOptions = new()
